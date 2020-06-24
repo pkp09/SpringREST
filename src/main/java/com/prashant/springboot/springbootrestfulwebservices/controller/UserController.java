@@ -20,20 +20,20 @@ public class UserController {
 
 	@Autowired
 	UserServiceImpl userService;
-	
+
 	@GetMapping("/users")
-	public List<User> getUsers(){
+	public List<User> getUsers() {
 		return userService.getUsers();
 	}
-	
+
 	@GetMapping("/user/{id}")
-	public User getUser(@PathVariable Integer id){
+	public User getUser(@PathVariable Integer id) {
 		User user = userService.getUser(id);
-		if(Objects.isNull(user))
+		if (Objects.isNull(user))
 			throw new UserNotFoundException("Not FOund");
 		return user;
 	}
-	
+
 	@PostMapping("/users")
 	public User insert(@RequestBody User user) {
 		return userService.insert(user);

@@ -11,7 +11,7 @@ public class RestTest {
 	public String helloWorld() {
 		return "Hello World";
 	}
-	
+
 	@GetMapping("/hello/{value}")
 	public String helloWorldPathVariable(@PathVariable String value) {
 		return "Hello : " + value;
