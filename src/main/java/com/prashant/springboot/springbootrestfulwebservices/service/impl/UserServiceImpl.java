@@ -2,6 +2,7 @@ package com.prashant.springboot.springbootrestfulwebservices.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,18 @@ public class UserServiceImpl implements UserService {
 		user.setId(++userCount);
 		users.add(user);
 		return user;
+	}
+	
+	public User deletUser(Integer id) {
+		Iterator<User> it = users.iterator();
+		while(it.hasNext()) {
+			User user = it.next();
+			if(user.getId().equals(id)) {
+				it.remove();
+				return user;
+			}
+		}
+		return null;
 	}
 
 }
