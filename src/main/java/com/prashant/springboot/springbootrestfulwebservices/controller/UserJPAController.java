@@ -18,24 +18,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.prashant.springboot.springbootrestfulwebservices.exception.UserNotFoundException;
 import com.prashant.springboot.springbootrestfulwebservices.pojo.Post;
 import com.prashant.springboot.springbootrestfulwebservices.pojo.User;
+import com.prashant.springboot.springbootrestfulwebservices.service.PostJpaService;
 import com.prashant.springboot.springbootrestfulwebservices.service.UserJpaService;
-import com.prashant.springboot.springbootrestfulwebservices.service.impl.UserServiceImpl;
 
 @RestController
 public class UserJPAController {
-
-	@Autowired
-	UserServiceImpl userService;
 	
 	@Autowired
 	UserJpaService userJpaService;
+	
+	@Autowired
+	PostJpaService postJpaService;
 
 	@GetMapping("/jpa/users")
 	public List<User> getUsers() {
@@ -89,5 +88,23 @@ public class UserJPAController {
 			throw new UserNotFoundException("User Not Found");
 		
 		return user.get().getPosts();
+	}
+	
+	@PostMapping("/jpa/users/{id}/posts")
+	public ResponseEntity<User> createPost(@PathVariable Integer id, @Valid @RequestBody Post post) {
+		Optional<User> user = userJpaService.findById(id);
+		if(!user.isPresent())
+			throw new UserNotFoundException("User Not Found");
+		
+		post.setUser(user.get());
+		postJpaService.save(post);
+		
+		URI uri = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(post.getId())
+				.toUri();
+		
+		return ResponseEntity.created(uri).build();
 	}
 }

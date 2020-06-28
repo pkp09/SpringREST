@@ -26,7 +26,6 @@ public class Post {
 	
 	public Post() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Post(Integer id, String description, Date postDate, User user) {
