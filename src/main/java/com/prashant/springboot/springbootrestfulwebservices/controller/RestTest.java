@@ -27,14 +27,12 @@ public class RestTest {
 	
 	@GetMapping("/hello/i18n")
 	public String helloWorldInternationalization(@RequestHeader(name="Accept-Language", required=true) Locale locale) {
-		
 		return messageSource.getMessage("good.morning.message", null, locale);
 	}
 	
 	
 	@GetMapping("/hello/i18n/v2")
 	public String helloWorldInternationalizationV2() {
-		
 		return messageSource.getMessage("good.morning.message", null, LocaleContextHolder.getLocale());
 	}
 }
