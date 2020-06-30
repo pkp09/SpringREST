@@ -43,6 +43,7 @@ public class UserController {
 			throw new UserNotFoundException("User Not Found");
 
 		// this will add link all-user in the response
+		@SuppressWarnings("deprecation")
 		EntityModel<User> resource = new EntityModel<>(user);
 		WebMvcLinkBuilder linkTo = 
 				linkTo(methodOn(this.getClass()).getUsers());
